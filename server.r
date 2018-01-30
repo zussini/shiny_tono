@@ -73,17 +73,17 @@ server <- shinyServer(function(input, output,session) {
   })
   
   ## Handsontable
-  #observe({
-  #  if (!is.null(input$hot)) {
-  #    values$data = hot_to_r(input$hot)
-  #  } else {
+  observe({
+    if (!is.null(input$hot)) {
+      values$data = hot_to_r(input$hot)
+    } #else {
   #    if (is.null(values$data))
   #      DF <- DF
   #    else
   #      DF <- values$data
   #  }
   #  values$data <- DF
- # })  
+  })  
   output$hot <- renderRHandsontable({
     #values$data = hot_to_r(input$hot)
     ## DF <- values$data
@@ -94,7 +94,8 @@ server <- shinyServer(function(input, output,session) {
   ## Save 
   observeEvent(input$save, {
     finalDF <- isolate(values$data)
-    saveRDS(finalDF, file=file.path(outdir, sprintf("%s.rds", outfilename)))
+    #saveRDS(finalDF, file=file.path(getwd(), sprintf("%s.rds", 'table')))
+	write.table(finalDF,file=paste("C://Users//lenovo//Desktop//praca//cm_uj//shiny//test_tono//","wyniki.csv",sep=""),row.names = FALSE, col.names = FALSE)
   })
   ##CorrCoeff
   output$result <- renderText({round(rand,3)})
